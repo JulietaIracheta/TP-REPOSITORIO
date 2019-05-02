@@ -11,7 +11,7 @@ public class Continente {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Integer nombre;
+	private String nombre;
 	
 	//Getter and Setters
 	public Long getId() {
@@ -20,10 +20,10 @@ public class Continente {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Integer getNombre() {
+	public String getNombre() {
 		return nombre;
 	}
-	public void setNombre(Integer nombre) {
+	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 }
