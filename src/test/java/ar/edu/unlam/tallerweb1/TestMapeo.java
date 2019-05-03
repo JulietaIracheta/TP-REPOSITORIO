@@ -83,10 +83,97 @@ public class TestMapeo extends SpringTest{
 		}
 	}
 	
+	@Test
+	@Transactional
+	@Rollback (true)
+	public void TestTodosLosPaisesCuyaCapitalEstanAlNorteDelTropicoDeCancer(){
+
+		Pais p1 = new Pais();
+		Pais p2 = new Pais();
+		Pais p3 = new Pais();
+
+		Ciudad c1 = new Ciudad();
+		Ciudad c2 = new Ciudad();
+		Ciudad c3 = new Ciudad();
+		Ciudad c4 = new Ciudad();
+		Ciudad c5 = new Ciudad();
+		Ciudad c6 = new Ciudad();
+		
+		Ubicacion u1 = new Ubicacion();
+		Ubicacion u2 = new Ubicacion();
+		Ubicacion u3 = new Ubicacion();
+		Ubicacion u4 = new Ubicacion();
+		Ubicacion u5 = new Ubicacion();
+		Ubicacion u6 = new Ubicacion();
+		
+		p1.setNombre("Canada");
+		p2.setNombre("Indonesia");
+		p3.setNombre("Holanda");
+		
+		p1.setCapital("Ottawa");
+		p2.setCapital("Yakarta");
+		p3.setCapital("Ámsterdam");
+		
+		c1.setNombre("Montreal");
+		c2.setNombre("Ottawa");
+		c3.setNombre("Yakarta");
+		c4.setNombre("Surabaya");
+		c5.setNombre("Eindhoven");
+		c6.setNombre("Ámsterdam");
+		
+		c1.setPais(p1);
+		c2.setPais(p1);
+		c3.setPais(p2);
+		c4.setPais(p2);
+		c5.setPais(p3);
+		c6.setPais(p3);
+		
+		u1.setLatitud(45.508889);
+		u1.setLongitud(-73.561667);
+		u2.setLatitud(45.424722);
+		u2.setLongitud(-75.695);
+		u3.setLatitud(-6.21462);
+		u3.setLongitud(106.84513);
+		u4.setLatitud(-7.245833);
+		u4.setLongitud(112.737778);
+		u5.setLatitud(51.434444);
+		u5.setLongitud(5.484167);
+		u6.setLatitud(52.383333);
+		u6.setLongitud(4.9);
+		
+		c1.setUbicacion(u1);
+		c2.setUbicacion(u2);
+		c3.setUbicacion(u3);
+		c4.setUbicacion(u4);
+		c5.setUbicacion(u5);
+		c6.setUbicacion(u6);
+
+		//Latitud de Tropico de Cancer en decimales 23.43722222222222
+				Double tropC = 23.43722222222222;
+				
+				getSession().save(c1);
+				getSession().save(c2);
+				getSession().save(c3);
+				getSession().save(c4);
+				getSession().save(c5);
+				getSession().save(c6);
+
+		List <Pais> ppListaw = getSession().createCriteria(Pais.class)
+										.createAlias("ciudades", "ciuBuscada")
+										.createAlias("ciuBuscada.ubicacion", "ubiBuscada")
+										.add(Restrictions.like("ciuBuscada.nombre", "capital"))
+										.add(Restrictions.gt("ubiBuscada.latitud", tropC)).list();
+		//ESTA MAL PERO NO SE COMO AGREGAR AL CRITERIA EL OneToMany
+		/*
+		for(Pais pp3:ppListaw){
+			for(Ciudad cc3:pp3.getCiudades()){
+				assertThat(cc3.getUbicacion().getLatitud()).isEqualTo(tropC);
+			}
+		}*/
+								
+
 	
 	
-	
-	
-	
+	}	
 	
 }

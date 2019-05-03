@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.modelo;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,9 +23,10 @@ public class Pais {
 	private String idioma;
 	private String capital;
 	
-	@OneToMany
+	@OneToMany (fetch=FetchType.EAGER)
 	@Cascade(value=CascadeType.ALL)
 	private List <Ciudad> ciudades;
+	
 	public List<Ciudad> getCiudades() {
 		return ciudades;
 	}
