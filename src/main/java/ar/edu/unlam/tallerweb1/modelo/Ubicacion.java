@@ -14,8 +14,6 @@ public class Ubicacion {
 	private Double latitud;
 	private Double longitud;
 	
-	@OneToOne
-	private Ubicacion ubicacion;
 
 	
 	//Getters and setters
@@ -44,11 +42,4 @@ public class Ubicacion {
 		this.longitud = longitud;
 	}
 
-	public Ubicacion getUbicacion() {
-		return ubicacion;
-	}
-
-	public void setUbicacion(Ubicacion ubicacion) {
-		this.ubicacion = ubicacion;
-	}
 }

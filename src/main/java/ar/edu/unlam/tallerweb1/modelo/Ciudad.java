@@ -4,6 +4,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -15,11 +17,14 @@ public class Ciudad {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nombre; 
-	private String ubicaciongeo;
 	
 	@ManyToOne
-	@Cascade(value= CascadeType.ALL)
+	@Cascade(value= CascadeType.SAVE_UPDATE)
 	private Pais pais;
+	
+	@OneToOne
+	@Cascade(value= CascadeType.ALL)
+	private Ubicacion ubicacion;
 
 	
 	//Getters and Setters
@@ -31,20 +36,20 @@ public class Ciudad {
 		this.id = id;
 	}
 
+	public Ubicacion getUbicacion() {
+		return ubicacion;
+	}
+
+	public void setUbicacion(Ubicacion ubicacion) {
+		this.ubicacion = ubicacion;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public String getUbicaciongeo() {
-		return ubicaciongeo;
-	}
-
-	public void setUbicaciongeo(String ubicaciongeo) {
-		this.ubicaciongeo = ubicaciongeo;
 	}
 
 	public Pais getPais() {

@@ -1,9 +1,13 @@
 package ar.edu.unlam.tallerweb1.modelo;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -18,10 +22,21 @@ public class Pais {
 	private String idioma;
 	private String capital;
 	
-	@ManyToOne
-	@Cascade(value= CascadeType.ALL)
-	private Continente continente;
+	@OneToMany
+	@Cascade(value=CascadeType.ALL)
+	private List <Ciudad> ciudades;
+	public List<Ciudad> getCiudades() {
+		return ciudades;
+	}
 
+	public void setCiudades(List<Ciudad> ciudades) {
+		this.ciudades = ciudades;
+	}
+
+	@ManyToOne
+	@Cascade(value= CascadeType.SAVE_UPDATE)
+	private Continente continente;
+	
 	
 	//Getters and Setters.
 	public Long getId() {
