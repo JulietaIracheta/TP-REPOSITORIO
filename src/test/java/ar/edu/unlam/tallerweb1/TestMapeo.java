@@ -169,6 +169,48 @@ public class TestMapeo extends SpringTest{
 			assertThat(pp3.getCapital().getUbicacion().getLatitud()).isGreaterThan(tropicoCancer);
 		}
 	
-	}	
+	}
+	@Test
+	@Transactional
+	@Rollback (true)
+	public void TestCiudadesDelHemisferioSur(){
+		Ciudad c1 = new Ciudad();
+		Ciudad c2 = new Ciudad();
+		Ciudad c3 = new Ciudad();
+		Ciudad c4 = new Ciudad();
+		Ciudad c5 = new Ciudad();
+		Ubicacion u1 = new Ubicacion();
+		Ubicacion u2 = new Ubicacion();
+		Ubicacion u3 = new Ubicacion();
+		Ubicacion u4 = new Ubicacion();
+		Ubicacion u5 = new Ubicacion();
+		u1.setLatitud(12.555897);
+		u2.setLatitud(-81.75125);
+		u3.setLatitud(32.4544855);
+		u4.setLatitud(-2.4454545);
+		u5.setLatitud(-0.96987);
+		c1.setUbicacion(u1);
+		c2.setUbicacion(u2);
+		c3.setUbicacion(u3);
+		c4.setUbicacion(u4);
+		c5.setUbicacion(u5);
+		getSession().save(c1);
+		getSession().save(c2);
+		getSession().save(c3);
+		getSession().save(c4);
+		getSession().save(c5);
+		
+		//El hemisferio sur se encuentra por debajo del Ecuador, el cual tiene una latitud de 0
+		Double ecuador = 0.0;
+		
+		List <Ciudad> ciudadListaSur = getSession().createCriteria(Ciudad.class)
+									   .createAlias("ubicacion", "uBuscada")
+									   .add(Restrictions.lt("uBuscada.latitud", ecuador))
+									   .list();
+		for(Ciudad cLS:ciudadListaSur){
+			assertThat(cLS.getUbicacion().getLatitud()).isLessThan(ecuador);
+		}
+	}
+	
 	
 }
