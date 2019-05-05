@@ -110,9 +110,6 @@ public class TestMapeo extends SpringTest{
 		p2.setNombre("Indonesia");
 		p3.setNombre("Holanda");
 		
-		p1.setCapital("Ottawa");
-		p2.setCapital("Yakarta");
-		p3.setCapital("Ámsterdam");
 		
 		c1.setNombre("Montreal");
 		c2.setNombre("Ottawa");
@@ -128,17 +125,21 @@ public class TestMapeo extends SpringTest{
 		c5.setPais(p3);
 		c6.setPais(p3);
 		
+		p1.setCapital(c2);
+		p2.setCapital(c3);
+		p3.setCapital(c6);
+		
 		u1.setLatitud(45.508889);
 		u1.setLongitud(-73.561667);
-		u2.setLatitud(45.424722);
+		u2.setLatitud(45.424722); //Ottawa
 		u2.setLongitud(-75.695);
-		u3.setLatitud(-6.21462);
+		u3.setLatitud(-6.21462); //Yakarta
 		u3.setLongitud(106.84513);
 		u4.setLatitud(-7.245833);
 		u4.setLongitud(112.737778);
 		u5.setLatitud(51.434444);
 		u5.setLongitud(5.484167);
-		u6.setLatitud(52.383333);
+		u6.setLatitud(52.383333); //Ámsterdam
 		u6.setLongitud(4.9);
 		
 		c1.setUbicacion(u1);
@@ -149,7 +150,7 @@ public class TestMapeo extends SpringTest{
 		c6.setUbicacion(u6);
 
 		//Latitud de Tropico de Cancer en decimales 23.43722222222222
-				Double tropC = 23.43722222222222;
+				Double tropicoCancer = 23.43722222222222;
 				
 				getSession().save(c1);
 				getSession().save(c2);
@@ -159,20 +160,14 @@ public class TestMapeo extends SpringTest{
 				getSession().save(c6);
 
 		List <Pais> ppListaw = getSession().createCriteria(Pais.class)
-										.createAlias("ciudades", "ciuBuscada")
-										.createAlias("ciuBuscada.ubicacion", "ubiBuscada")
-										.add(Restrictions.like("ciuBuscada.nombre", "capital"))
-										.add(Restrictions.gt("ubiBuscada.latitud", tropC)).list();
-		//ESTA MAL PERO NO SE COMO AGREGAR AL CRITERIA EL OneToMany
-		/*
-		for(Pais pp3:ppListaw){
-			for(Ciudad cc3:pp3.getCiudades()){
-				assertThat(cc3.getUbicacion().getLatitud()).isEqualTo(tropC);
-			}
-		}*/
-								
+										.createAlias("capital", "capBuscada")
+										.createAlias("capBuscada.ubicacion", "ubiBuscada")
+										.add(Restrictions.gt("ubiBuscada.latitud", tropicoCancer))
+										.list();
 
-	
+		for(Pais pp3:ppListaw){
+			assertThat(pp3.getCapital().getUbicacion().getLatitud()).isGreaterThan(tropicoCancer);
+		}
 	
 	}	
 	

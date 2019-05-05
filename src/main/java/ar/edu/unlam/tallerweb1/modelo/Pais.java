@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -21,25 +22,15 @@ public class Pais {
 	private String nombre;
 	private Integer habitantes;
 	private String idioma;
-	private String capital;
-	
-	@OneToMany (fetch=FetchType.EAGER)
-	@Cascade(value=CascadeType.ALL)
-	private List <Ciudad> ciudades;
-	
-	public List<Ciudad> getCiudades() {
-		return ciudades;
-	}
-
-	public void setCiudades(List<Ciudad> ciudades) {
-		this.ciudades = ciudades;
-	}
-
+	@OneToOne
+	@Cascade(value= CascadeType.ALL)
+	private Ciudad capital;
 	@ManyToOne
 	@Cascade(value= CascadeType.SAVE_UPDATE)
 	private Continente continente;
 	
 	
+
 	//Getters and Setters.
 	public Long getId() {
 		return id;
@@ -73,13 +64,6 @@ public class Pais {
 		this.idioma = idioma;
 	}
 
-	public String getCapital() {
-		return capital;
-	}
-
-	public void setCapital(String capital) {
-		this.capital = capital;
-	}
 
 	public Continente getContinente() {
 		return continente;
@@ -88,4 +72,14 @@ public class Pais {
 	public void setContinente(Continente continente) {
 		this.continente = continente;
 	}
+
+	public Ciudad getCapital() {
+		return capital;
+	}
+
+	public void setCapital(Ciudad capital) {
+		this.capital = capital;
+	}
+	
+	
 }
