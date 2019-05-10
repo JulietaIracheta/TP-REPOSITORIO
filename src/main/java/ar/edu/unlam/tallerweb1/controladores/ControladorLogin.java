@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import ar.edu.unlam.tallerweb1.modelo.Cadena;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.servicios.ServicioLogin;
 
@@ -68,13 +69,35 @@ public class ControladorLogin {
 	public ModelAndView inicio() {
 		return new ModelAndView("redirect:/login");
 	}
-	
-	@RequestMapping (path = "/recibeop", method = RequestMethod.GET)
-	public ModelAndView recibeoperacion (@PathVariable("cadena")String caracteres,
-										 @PathVariable("operacion")String operacion) {
+	@RequestMapping ("/vistatp1")
+	public ModelAndView ingresoCadena(){
 		ModelMap model = new ModelMap();
-		operacion = caracteres.toUpperCase();
-		model.put("cadena", caracteres);
-		return new ModelAndView ("recibeop",model);
+		Cadena chain = new Cadena();
+		model.put("cadena", chain);
+		return new ModelAndView("vistatp1", model);
 	}
+	@RequestMapping(path = "/validar-tp", method= RequestMethod.POST)
+	public ModelAndView validacion(@ModelAttribute("cadena") Cadena chain, HttpServletRequest request){
+		ModelMap model = new ModelMap();
+		chain.realizarMetodo();
+		model.put("accion", chain.getAccion());
+		model.put("texto", chain.getTexto());
+		model.put("resultado", chain.getResultado());
+		return new ModelAndView("redirect:/tp1resultado/{accion}/{texto}/{resultado}", model);
+	}
+	@RequestMapping("/tp1resultado/{accion}/{texto}/{resultado}")
+	public ModelAndView mostrarResultado(@PathVariable("accion") String accion, @PathVariable
+										("texto") String texto, @PathVariable ("resultado") 
+										 String resultado){
+		ModelMap model = new ModelMap();
+		model.put("accion", accion);
+		model.put("texto", texto);
+		model.put("resultado", resultado);
+		return new ModelAndView("tp1Resultado",model);
+		
+	}
+	
+	
+	
+	
 }

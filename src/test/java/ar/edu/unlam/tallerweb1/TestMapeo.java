@@ -34,11 +34,11 @@ public class TestMapeo extends SpringTest{
 		getSession().save(p3);
 		
 		List <Pais> paisList = getSession().createCriteria(Pais.class)
-				.add(Restrictions.like("idioma", "Ingles"))
+				.add(Restrictions.like("idioma", "Inglesa"))
 				.list();
 		
 		for (Pais pl: paisList) {
-			assertThat(pl.getIdioma()).isEqualTo("Ingles");
+			assertThat(pl.getIdioma()).isEqualTo("Inglesa");
 		}	
 	}
 	
@@ -75,11 +75,11 @@ public class TestMapeo extends SpringTest{
 		
 		List <Pais> pceuropeoList = getSession().createCriteria(Pais.class)
 				.createAlias("continente", "continenteBuscado")
-				.add(Restrictions.like("continenteBuscado.nombre", "Europa"))
+				.add(Restrictions.like("continenteBuscado.nombre", "europeo"))
 				.list();
 		
 		for (Pais ce: pceuropeoList) {
-			assertThat(ce.getContinente().getNombre()).isEqualTo("Europa");
+			assertThat(ce.getContinente().getNombre()).isEqualTo("europeo");
 		}
 	}
 	
