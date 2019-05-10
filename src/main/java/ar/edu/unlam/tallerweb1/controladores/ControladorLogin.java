@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -66,5 +67,14 @@ public class ControladorLogin {
 	@RequestMapping(path = "/", method = RequestMethod.GET)
 	public ModelAndView inicio() {
 		return new ModelAndView("redirect:/login");
+	}
+	
+	@RequestMapping (path = "/recibeop", method = RequestMethod.GET)
+	public ModelAndView recibeoperacion (@PathVariable("cadena")String caracteres,
+										 @PathVariable("operacion")String operacion) {
+		ModelMap model = new ModelMap();
+		operacion = caracteres.toUpperCase();
+		model.put("cadena", caracteres);
+		return new ModelAndView ("recibeop",model);
 	}
 }
